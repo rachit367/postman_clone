@@ -24,6 +24,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Deployment (server-only, not committed)
+nginx/
+
 # OS / editor
 .DS_Store
 Thumbs.db
