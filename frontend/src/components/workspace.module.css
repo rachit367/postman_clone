@@ -1,0 +1,662 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  background: var(--bg);
+}
+
+.resizeX {
+  width: 1px;
+  background: var(--border);
+  transition: background 0.15s;
+}
+.resizeX:hover {
+  background: var(--accent);
+}
+.resizeY {
+  height: 1px;
+  background: var(--border);
+  transition: background 0.15s;
+}
+.resizeY:hover {
+  background: var(--accent);
+}
+
+/* Top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 44px;
+  padding: 0 14px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.topbarBrand {
+  font-weight: 600;
+  font-size: 13px;
+}
+.topbarNav {
+  display: flex;
+  gap: 4px;
+}
+.topbarNavItem {
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  font-size: 13px;
+}
+.topbarNavItem:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.topbarNavItemActive {
+  color: var(--text);
+  background: var(--bg-active);
+}
+.topbarSpacer {
+  flex: 1;
+}
+.envSelect {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 12px;
+  min-width: 180px;
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+}
+.sidebarIcons {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.iconButton {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 15px;
+}
+.iconButton:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.iconButtonActive {
+  background: var(--bg-active);
+  color: var(--text);
+}
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+}
+.searchInput {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+.sidebarSection {
+  flex: 1;
+  overflow-y: auto;
+}
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+}
+.sectionHeader:hover {
+  color: var(--text-muted);
+}
+.treeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  color: var(--text);
+}
+.treeRow:hover {
+  background: var(--bg-hover);
+}
+.treeRowActive {
+  background: var(--bg-active);
+}
+.treeIndent1 {
+  padding-left: 26px;
+}
+.treeIndent2 {
+  padding-left: 40px;
+}
+.methodTag {
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 34px;
+}
+.rowGrow {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rowActions {
+  display: none;
+  gap: 2px;
+}
+.treeRow:hover .rowActions {
+  display: flex;
+}
+.miniButton {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+.miniButton:hover {
+  background: var(--bg-active);
+  color: var(--text);
+}
+.checkmark {
+  color: var(--green);
+  font-size: 12px;
+}
+.stub {
+  font-size: 10px;
+  color: var(--text-faint);
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  padding: 0 4px;
+  margin-left: 6px;
+}
+
+/* Tab bar */
+.tabBar {
+  display: flex;
+  align-items: stretch;
+  height: 36px;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-right: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-muted);
+  background: none;
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+  max-width: 200px;
+}
+.tabActive {
+  background: var(--bg);
+  color: var(--text);
+}
+.tabMethod {
+  font-size: 10px;
+  font-weight: 700;
+}
+.tabName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabDirty {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.tabClose {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  font-size: 13px;
+  border-radius: 3px;
+  padding: 0 3px;
+}
+.tabClose:hover {
+  background: var(--bg-active);
+  color: var(--text);
+}
+.tabAdd {
+  padding: 0 12px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+.tabAdd:hover {
+  color: var(--text);
+}
+
+/* Request builder */
+.builder {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.urlBar {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  align-items: center;
+}
+.methodSelect {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 7px 8px;
+  font-weight: 700;
+  font-size: 12px;
+}
+.urlInput {
+  flex: 1;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+}
+.sendButton {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 20px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.sendButton:hover {
+  background: var(--accent-hover);
+}
+.sendButton:disabled {
+  opacity: 0.6;
+}
+.saveButton {
+  background: var(--bg-panel);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+}
+.saveButton:hover {
+  background: var(--bg-hover);
+}
+.linkButton {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.subTabs {
+  display: flex;
+  gap: 2px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border);
+}
+.subTab {
+  padding: 8px 10px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.subTab:hover {
+  color: var(--text);
+}
+.subTabActive {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+.subTabPanel {
+  flex: 1;
+  overflow: auto;
+  padding: 12px;
+  min-height: 0;
+}
+
+/* Key-value table */
+.kvTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.kvTable th {
+  text-align: left;
+  font-size: 11px;
+  color: var(--text-faint);
+  font-weight: 600;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.kvTable td {
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+}
+.kvCheck {
+  width: 30px;
+  text-align: center;
+}
+.kvInput {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 7px 8px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+}
+.kvInput:focus {
+  outline: 1px solid var(--accent);
+  background: var(--bg-panel);
+}
+.kvDelete {
+  width: 30px;
+  text-align: center;
+}
+
+/* Body / auth / settings */
+.radioRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.field {
+  margin-bottom: 12px;
+}
+.fieldLabel {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.textInput {
+  width: 100%;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 7px 8px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+}
+.inlineInput {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.eyeButton {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 7px 9px;
+  color: var(--text-muted);
+}
+.settingsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.settingsLabel {
+  font-size: 13px;
+}
+.settingsDesc {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+/* Response viewer */
+.responsePanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  border-top: 1px solid var(--border);
+}
+.responseMeta {
+  display: flex;
+  gap: 16px;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+.metaItem {
+  color: var(--text-muted);
+}
+.metaStrong {
+  color: var(--green);
+  font-weight: 600;
+}
+.metaError {
+  color: var(--red);
+  font-weight: 600;
+}
+.responseEmpty {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+.responseBody {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+.errorBanner {
+  margin: 12px;
+  padding: 12px;
+  border: 1px solid var(--red);
+  border-radius: 4px;
+  background: rgba(247, 109, 109, 0.08);
+  color: var(--red);
+  font-size: 13px;
+}
+.testRow {
+  display: flex;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.testPass {
+  color: var(--green);
+  font-weight: 600;
+}
+.testFail {
+  color: var(--red);
+  font-weight: 600;
+}
+.consoleLine {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 4px 12px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Workspace home */
+.home {
+  flex: 1;
+  overflow: auto;
+  padding: 40px 48px;
+}
+.homeTitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.homeMeta {
+  display: flex;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+.homeDivider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 20px 0;
+}
+.homeHint {
+  color: var(--text-faint);
+  font-size: 13px;
+}
+.pinButton {
+  margin-top: 24px;
+  background: none;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 8px 14px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* Modals */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+}
+.modal {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  width: 460px;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow: auto;
+  padding: 20px;
+}
+.modalTitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+.btnPrimary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+.btnGhost {
+  background: none;
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+/* Toasts */
+.toasts {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+}
+.toast {
+  min-width: 220px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+.toastSuccess {
+  border-left: 3px solid var(--green);
+}
+.toastError {
+  border-left: 3px solid var(--red);
+}
+.toastInfo {
+  border-left: 3px solid var(--blue);
+}
