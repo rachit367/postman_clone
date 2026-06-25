@@ -18,7 +18,9 @@ import styles from "../workspace.module.css";
 function RequestRow({ request, indent }: { request: ApiRequest; indent: string }) {
   const dispatch = useAppDispatch();
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       className={`${styles.treeRow} ${indent}`}
       onClick={() => dispatch(openRequestInTab(request))}
     >
@@ -39,7 +41,7 @@ function RequestRow({ request, indent }: { request: ApiRequest; indent: string }
           ✕
         </button>
       </span>
-    </button>
+    </div>
   );
 }
 
@@ -47,10 +49,15 @@ function FolderRow({ folder }: { folder: Folder }) {
   const [open, setOpen] = useState(true);
   return (
     <div>
-      <button className={`${styles.treeRow} ${styles.treeIndent1}`} onClick={() => setOpen(!open)}>
+      <div
+        role="button"
+        tabIndex={0}
+        className={`${styles.treeRow} ${styles.treeIndent1}`}
+        onClick={() => setOpen(!open)}
+      >
         <span>{open ? "▾" : "▸"}</span>
         <span className={styles.rowGrow}>📁 {folder.name}</span>
-      </button>
+      </div>
       {open &&
         folder.requests.map((request) => (
           <RequestRow key={request.id} request={request} indent={styles.treeIndent2} />
@@ -65,7 +72,12 @@ function CollectionRow({ collection }: { collection: Collection }) {
 
   return (
     <div>
-      <button className={styles.treeRow} onClick={() => setOpen(!open)}>
+      <div
+        role="button"
+        tabIndex={0}
+        className={styles.treeRow}
+        onClick={() => setOpen(!open)}
+      >
         <span>{open ? "▾" : "▸"}</span>
         <span className={styles.rowGrow}>{collection.name}</span>
         <span className={styles.rowActions}>
@@ -109,7 +121,7 @@ function CollectionRow({ collection }: { collection: Collection }) {
             ✕
           </button>
         </span>
-      </button>
+      </div>
       {open && (
         <div>
           {collection.folders.map((folder) => (

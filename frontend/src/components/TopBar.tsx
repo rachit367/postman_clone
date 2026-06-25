@@ -1,17 +1,15 @@
 "use client";
 
-import { activateEnvironment } from "@/store/slices/environmentsSlice";
-import { openModal, pushToast } from "@/store/slices/uiSlice";
+import { openModal } from "@/store/slices/uiSlice";
 import { setShowHome } from "@/store/slices/tabsSlice";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useAppDispatch } from "@/store/hooks";
 
+import { EnvironmentSelector } from "./EnvironmentSelector";
 import { StubBadge } from "./StubBadge";
 import styles from "./workspace.module.css";
 
 export function TopBar() {
   const dispatch = useAppDispatch();
-  const environments = useAppSelector((s) => s.environments.items);
-  const activeId = environments.find((e) => e.is_active)?.id ?? 0;
 
   const comingSoon = (title: string) => dispatch(openModal({ type: "coming-soon", title }));
 
@@ -43,23 +41,7 @@ export function TopBar() {
         </button>
         <div className={styles.topbarSpacer} />
 
-        <select
-          className={styles.envSelect}
-          value={activeId}
-          onChange={(e) => {
-            const id = Number(e.target.value);
-            if (id) {
-              dispatch(activateEnvironment(id));
-            }
-          }}
-        >
-          <option value={0}>No Environment</option>
-          {environments.map((env) => (
-            <option key={env.id} value={env.id}>
-              {env.name}
-            </option>
-          ))}
-        </select>
+        <EnvironmentSelector />
         <button className={styles.btnGhost} onClick={() => comingSoon("Invite")}>
           Invite
         </button>

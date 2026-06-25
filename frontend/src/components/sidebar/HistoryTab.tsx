@@ -58,8 +58,10 @@ export function HistoryTab({ search }: { search: string }) {
         )}
       </div>
       {filtered.map((entry) => (
-        <button
+        <div
           key={entry.id}
+          role="button"
+          tabIndex={0}
           className={styles.treeRow}
           onClick={() => dispatch(openHistoryInTab(toDraft(entry)))}
         >
@@ -78,7 +80,7 @@ export function HistoryTab({ search }: { search: string }) {
               ✕
             </button>
           </span>
-        </button>
+        </div>
       ))}
     </div>
   );

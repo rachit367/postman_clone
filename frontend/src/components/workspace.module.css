@@ -132,6 +132,80 @@
   min-width: 180px;
 }
 
+/* Custom environment selector (Postman-style) */
+.envSelector {
+  position: relative;
+}
+.envTrigger {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--text);
+  min-width: 160px;
+  text-align: left;
+}
+.envTrigger:hover {
+  background: var(--bg-hover);
+}
+.envPanel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 280px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  padding: 8px;
+  z-index: 150;
+}
+.envPanelHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.envSearchInput {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+.envOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 13px;
+  padding: 7px 8px;
+  border-radius: 4px;
+}
+.envOption:hover {
+  background: var(--bg-hover);
+}
+.envOptionActive {
+  background: var(--bg-active);
+}
+.envOptionMuted {
+  color: var(--text-faint);
+}
+.envCheck {
+  width: 14px;
+  display: inline-block;
+  color: var(--green);
+  font-size: 12px;
+}
+
 /* Sidebar */
 .sidebar {
   display: flex;
