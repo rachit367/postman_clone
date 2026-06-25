@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 import { createCollection, saveRequest, updateRequest } from "@/store/slices/collectionsSlice";
-import { fetchHistory } from "@/store/slices/historySlice";
 import { closeModal, pushToast } from "@/store/slices/uiSlice";
+import { createWorkspace, renameWorkspace } from "@/store/slices/workspacesSlice";
 import { markSaved } from "@/store/slices/tabsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
@@ -16,6 +16,7 @@ export function Modals() {
   const dispatch = useAppDispatch();
   const modal = useAppSelector((s) => s.ui.modal);
   const collections = useAppSelector((s) => s.collections.items);
+  const workspaceId = useAppSelector((s) => s.workspaces.selectedId);
   const activeTab = useAppSelector((s) =>
     s.tabs.tabs.find((t) => t.id === s.tabs.activeTabId)
   );
@@ -31,6 +32,49 @@ export function Modals() {
     setName("");
     dispatch(closeModal());
   };
+
+  if (modal.type === "workspace-create" || modal.type === "workspace-rename") {
+    const isRename = modal.type === "workspace-rename";
+    return (
+      <div className={styles.modalOverlay} onClick={close}>
+        <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+          <div className={styles.modalTitle}>
+            {isRename ? "Rename Workspace" : "New Workspace"}
+          </div>
+          <input
+            autoFocus
+            className={styles.textInput}
+            placeholder="Workspace name"
+            value={name || (isRename ? modal.name : "")}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <div className={styles.modalActions}>
+            <button className={styles.btnGhost} onClick={close}>
+              Cancel
+            </button>
+            <button
+              className={styles.btnPrimary}
+              onClick={async () => {
+                const value = name.trim() || (isRename ? modal.name : "");
+                if (!value) {
+                  return;
+                }
+                if (isRename) {
+                  await dispatch(renameWorkspace({ id: modal.id, name: value }));
+                } else {
+                  await dispatch(createWorkspace(value));
+                }
+                dispatch(pushToast("Workspace saved", "success"));
+                close();
+              }}
+            >
+              {isRename ? "Rename" : "Create"}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (modal.type === "coming-soon") {
     return (
@@ -80,7 +124,10 @@ export function Modals() {
                 if (!name.trim()) {
                   return;
                 }
-                await dispatch(createCollection(name.trim()));
+                if (!workspaceId) {
+                  return;
+                }
+                await dispatch(createCollection({ workspaceId, name: name.trim() }));
                 dispatch(pushToast("Collection created", "success"));
                 close();
               }}
@@ -125,7 +172,7 @@ export function Modals() {
               className={styles.btnPrimary}
               disabled={!collectionId}
               onClick={async () => {
-                if (!collectionId) {
+                if (!collectionId || !workspaceId) {
                   return;
                 }
                 const request = {
@@ -134,11 +181,11 @@ export function Modals() {
                 };
                 if (activeTab.requestId) {
                   await dispatch(
-                    updateRequest({ id: activeTab.requestId, request })
+                    updateRequest({ id: activeTab.requestId, request, workspaceId })
                   );
                 } else {
                   const result = await dispatch(
-                    saveRequest({ collectionId, request })
+                    saveRequest({ collectionId, request, workspaceId })
                   ).unwrap();
                   dispatch(
                     markSaved({
@@ -148,7 +195,6 @@ export function Modals() {
                     })
                   );
                 }
-                dispatch(fetchHistory());
                 dispatch(pushToast("Request saved", "success"));
                 close();
               }}

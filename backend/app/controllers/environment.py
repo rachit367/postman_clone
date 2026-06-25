@@ -9,8 +9,11 @@ from app.schemas.environment import (
 )
 
 
-def list_environments(db: Session) -> list[EnvironmentOut]:
-    return [EnvironmentOut.model_validate(item) for item in repo.list_environments(db)]
+def list_environments(db: Session, workspace_id: int) -> list[EnvironmentOut]:
+    return [
+        EnvironmentOut.model_validate(item)
+        for item in repo.list_environments(db, workspace_id)
+    ]
 
 
 def get_environment(db: Session, environment_id: int) -> EnvironmentOut:

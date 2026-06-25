@@ -28,6 +28,7 @@ def _mask(variable: EnvironmentVariable) -> dict:
 def _to_dict(environment: Environment) -> dict:
     return {
         "id": environment.id,
+        "workspace_id": environment.workspace_id,
         "name": environment.name,
         "is_active": environment.is_active,
         "created_at": environment.created_at,
@@ -48,10 +49,11 @@ def _load(db: Session, environment_id: int) -> Environment:
     return environment
 
 
-def list_environments(db: Session) -> list[dict]:
+def list_environments(db: Session, workspace_id: int) -> list[dict]:
     stmt = (
         select(Environment)
         .options(selectinload(Environment.variables))
+        .where(Environment.workspace_id == workspace_id)
         .order_by(Environment.id)
     )
     return [_to_dict(item) for item in db.execute(stmt).scalars().all()]
@@ -62,7 +64,7 @@ def get_environment(db: Session, environment_id: int) -> dict:
 
 
 def create_environment(db: Session, data: EnvironmentCreate) -> dict:
-    environment = Environment(name=data.name)
+    environment = Environment(workspace_id=data.workspace_id, name=data.name)
     for variable in data.variables:
         environment.variables.append(
             EnvironmentVariable(

@@ -21,6 +21,7 @@ class VariableOut(BaseModel):
 
 
 class EnvironmentCreate(BaseModel):
+    workspace_id: int
     name: str
     variables: list[VariableIn] = Field(default_factory=list)
 
@@ -34,6 +35,7 @@ class EnvironmentOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    workspace_id: int
     name: str
     is_active: bool
     created_at: datetime

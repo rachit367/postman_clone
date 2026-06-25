@@ -4,6 +4,7 @@ from app.models.environment_variable import EnvironmentVariable
 from app.models.folder import Folder
 from app.models.history import History
 from app.models.request import Request
+from app.models.workspace import Workspace
 
 __all__ = [
     "Collection",
@@ -12,4 +13,5 @@ __all__ = [
     "Folder",
     "History",
     "Request",
+    "Workspace",
 ]

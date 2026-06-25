@@ -5,6 +5,7 @@ import { setShowHome } from "@/store/slices/tabsSlice";
 import { useAppDispatch } from "@/store/hooks";
 
 import { EnvironmentSelector } from "./EnvironmentSelector";
+import { WorkspaceSwitcher } from "./WorkspaceSwitcher";
 import styles from "./workspace.module.css";
 
 export function TopBar() {
@@ -30,9 +31,7 @@ export function TopBar() {
             ⌂
           </button>
         </div>
-        <button className={styles.workspaceMenu} onClick={() => dispatch(setShowHome(true))}>
-          My Workspace ▾
-        </button>
+        <WorkspaceSwitcher />
 
         <div className={styles.topbarSpacer} />
 

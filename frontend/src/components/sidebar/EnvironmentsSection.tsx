@@ -11,6 +11,7 @@ import styles from "../workspace.module.css";
 export function EnvironmentsSection() {
   const dispatch = useAppDispatch();
   const environments = useAppSelector((s) => s.environments.items);
+  const workspaceId = useAppSelector((s) => s.workspaces.selectedId);
   const [open, setOpen] = useState(true);
 
   return (
@@ -35,7 +36,7 @@ export function EnvironmentsSection() {
           <button
             key={env.id}
             className={styles.treeRow}
-            onClick={() => dispatch(activateEnvironment(env.id))}
+            onClick={() => workspaceId && dispatch(activateEnvironment({ id: env.id, workspaceId }))}
           >
             <span className={styles.rowGrow}>{env.name}</span>
             {env.is_active && <span className={styles.checkmark}>✓</span>}

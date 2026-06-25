@@ -17,6 +17,7 @@ import styles from "../workspace.module.css";
 
 function RequestRow({ request, indent }: { request: ApiRequest; indent: string }) {
   const dispatch = useAppDispatch();
+  const workspaceId = useAppSelector((s) => s.workspaces.selectedId);
   return (
     <div
       role="button"
@@ -34,8 +35,10 @@ function RequestRow({ request, indent }: { request: ApiRequest; indent: string }
           title="Delete request"
           onClick={(e) => {
             e.stopPropagation();
-            dispatch(deleteRequest(request.id));
-            dispatch(pushToast("Request deleted", "info"));
+            if (workspaceId) {
+              dispatch(deleteRequest({ id: request.id, workspaceId }));
+              dispatch(pushToast("Request deleted", "info"));
+            }
           }}
         >
           ✕
@@ -68,6 +71,7 @@ function FolderRow({ folder }: { folder: Folder }) {
 
 function CollectionRow({ collection }: { collection: Collection }) {
   const dispatch = useAppDispatch();
+  const workspaceId = useAppSelector((s) => s.workspaces.selectedId);
   const [open, setOpen] = useState(true);
 
   return (
@@ -87,8 +91,8 @@ function CollectionRow({ collection }: { collection: Collection }) {
             onClick={(e) => {
               e.stopPropagation();
               const name = prompt("Folder name");
-              if (name) {
-                dispatch(createFolder({ collectionId: collection.id, name }));
+              if (name && workspaceId) {
+                dispatch(createFolder({ collectionId: collection.id, name, workspaceId }));
               }
             }}
           >

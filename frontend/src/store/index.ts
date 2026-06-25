@@ -5,6 +5,7 @@ import environmentsReducer from "./slices/environmentsSlice";
 import historyReducer from "./slices/historySlice";
 import tabsReducer from "./slices/tabsSlice";
 import uiReducer from "./slices/uiSlice";
+import workspacesReducer from "./slices/workspacesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     history: historyReducer,
     tabs: tabsReducer,
     ui: uiReducer,
+    workspaces: workspacesReducer,
   },
 });
 

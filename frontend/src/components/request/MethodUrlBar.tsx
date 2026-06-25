@@ -23,6 +23,7 @@ export function MethodUrlBar() {
   const dispatch = useAppDispatch();
   const tab = useAppSelector((s) => s.tabs.tabs.find((t) => t.id === s.tabs.activeTabId));
   const activeEnv = useAppSelector((s) => s.environments.items.find((e) => e.is_active));
+  const workspaceId = useAppSelector((s) => s.workspaces.selectedId);
 
   if (!tab) {
     return null;
@@ -48,6 +49,7 @@ export function MethodUrlBar() {
       scripts: tab.draft.scripts,
       settings: tab.draft.settings,
       environment_id: activeEnv?.id ?? null,
+      workspace_id: workspaceId,
     };
     try {
       const result = await api.post<RunResponse & Partial<RunError>>("/run", payload);
@@ -56,7 +58,9 @@ export function MethodUrlBar() {
       } else {
         dispatch(setResponse(result as RunResponse));
       }
-      dispatch(fetchHistory());
+      if (workspaceId) {
+        dispatch(fetchHistory(workspaceId));
+      }
     } catch (err) {
       dispatch(
         setRunError({ type: "client_error", message: (err as Error).message })

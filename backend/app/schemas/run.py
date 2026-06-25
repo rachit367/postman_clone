@@ -18,6 +18,7 @@ class RunRequest(BaseModel):
     scripts: RequestScripts = Field(default_factory=RequestScripts)
     settings: RequestSettings = Field(default_factory=RequestSettings)
     environment_id: int | None = None
+    workspace_id: int
 
 
 class TestResult(BaseModel):

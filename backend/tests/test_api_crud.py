@@ -1,8 +1,10 @@
-def test_collection_crud_and_tree(client):
-    created = client.post("/api/collections", json={"name": "My API"}).json()
+def test_collection_crud_and_tree(client, workspace_id):
+    created = client.post(
+        "/api/collections", json={"workspace_id": workspace_id, "name": "My API"}
+    ).json()
     assert created["name"] == "My API"
 
-    listed = client.get("/api/collections").json()
+    listed = client.get(f"/api/collections?workspace_id={workspace_id}").json()
     assert len(listed) == 1
     assert listed[0]["folders"] == []
     assert listed[0]["requests"] == []
@@ -14,11 +16,13 @@ def test_collection_crud_and_tree(client):
     assert folder["name"] == "auth"
 
     client.delete(f"/api/collections/{collection_id}")
-    assert client.get("/api/collections").json() == []
+    assert client.get(f"/api/collections?workspace_id={workspace_id}").json() == []
 
 
-def test_request_secret_masked_and_revealed(client):
-    collection_id = client.post("/api/collections", json={"name": "C"}).json()["id"]
+def test_request_secret_masked_and_revealed(client, workspace_id):
+    collection_id = client.post(
+        "/api/collections", json={"workspace_id": workspace_id, "name": "C"}
+    ).json()["id"]
     payload = {
         "name": "Bearer call",
         "method": "GET",
@@ -33,8 +37,10 @@ def test_request_secret_masked_and_revealed(client):
     assert revealed["token"] == "super-secret-token"
 
 
-def test_root_requests_separated_from_folder_requests(client):
-    collection_id = client.post("/api/collections", json={"name": "C"}).json()["id"]
+def test_root_requests_separated_from_folder_requests(client, workspace_id):
+    collection_id = client.post(
+        "/api/collections", json={"workspace_id": workspace_id, "name": "C"}
+    ).json()["id"]
     folder = client.post(
         f"/api/collections/{collection_id}/folders", json={"name": "f"}
     ).json()
@@ -51,14 +57,19 @@ def test_root_requests_separated_from_folder_requests(client):
     assert [r["name"] for r in tree["folders"][0]["requests"]] == ["nested"]
 
 
-def test_environment_activate_and_secret_reveal(client):
+def test_environment_activate_and_secret_reveal(client, workspace_id):
     env_a = client.post(
         "/api/environments",
-        json={"name": "dev", "variables": [{"key": "base", "value": "http://x"}]},
+        json={
+            "workspace_id": workspace_id,
+            "name": "dev",
+            "variables": [{"key": "base", "value": "http://x"}],
+        },
     ).json()
     env_b = client.post(
         "/api/environments",
         json={
+            "workspace_id": workspace_id,
             "name": "prod",
             "variables": [{"key": "pw", "value": "hunter2", "is_secret": True}],
         },
@@ -67,7 +78,7 @@ def test_environment_activate_and_secret_reveal(client):
     client.post(f"/api/environments/{env_a['id']}/activate")
     client.post(f"/api/environments/{env_b['id']}/activate")
 
-    envs = {e["id"]: e for e in client.get("/api/environments").json()}
+    envs = {e["id"]: e for e in client.get(f"/api/environments?workspace_id={workspace_id}").json()}
     assert envs[env_a["id"]]["is_active"] is False
     assert envs[env_b["id"]]["is_active"] is True
 

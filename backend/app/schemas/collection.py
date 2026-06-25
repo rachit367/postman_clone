@@ -7,6 +7,7 @@ from app.schemas.request import RequestOut
 
 
 class CollectionCreate(BaseModel):
+    workspace_id: int
     name: str
     description: str | None = None
 
@@ -20,6 +21,7 @@ class CollectionOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    workspace_id: int
     name: str
     description: str | None = None
     created_at: datetime

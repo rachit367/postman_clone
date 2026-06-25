@@ -15,14 +15,29 @@ const initialState: EnvironmentsState = {
 
 type VariableInput = Omit<EnvironmentVariable, "id">;
 
-export const fetchEnvironments = createAsyncThunk("environments/fetch", async () => {
-  return api.get<Environment[]>("/environments");
-});
+export const fetchEnvironments = createAsyncThunk(
+  "environments/fetch",
+  async (workspaceId: number) => {
+    return api.get<Environment[]>(`/environments?workspace_id=${workspaceId}`);
+  }
+);
 
 export const createEnvironment = createAsyncThunk(
   "environments/create",
-  async ({ name, variables }: { name: string; variables: VariableInput[] }) => {
-    return api.post<Environment>("/environments", { name, variables });
+  async ({
+    workspaceId,
+    name,
+    variables,
+  }: {
+    workspaceId: number;
+    name: string;
+    variables: VariableInput[];
+  }) => {
+    return api.post<Environment>("/environments", {
+      workspace_id: workspaceId,
+      name,
+      variables,
+    });
   }
 );
 
@@ -51,17 +66,17 @@ export const deleteEnvironment = createAsyncThunk(
 
 export const activateEnvironment = createAsyncThunk(
   "environments/activate",
-  async (id: number) => {
+  async ({ id, workspaceId }: { id: number; workspaceId: number }) => {
     await api.post(`/environments/${id}/activate`);
-    return api.get<Environment[]>("/environments");
+    return api.get<Environment[]>(`/environments?workspace_id=${workspaceId}`);
   }
 );
 
 export const deactivateEnvironments = createAsyncThunk(
   "environments/deactivate",
-  async () => {
+  async (workspaceId: number) => {
     await api.post("/environments/deactivate");
-    return api.get<Environment[]>("/environments");
+    return api.get<Environment[]>(`/environments?workspace_id=${workspaceId}`);
   }
 );
 

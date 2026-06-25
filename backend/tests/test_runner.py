@@ -19,6 +19,10 @@ def db():
     )
     Base.metadata.create_all(engine)
     session = sessionmaker(bind=engine)()
+    from app.models import Workspace
+
+    session.add(Workspace(id=1, name="WS"))
+    session.commit()
     yield session
     session.close()
 
@@ -28,7 +32,7 @@ def test_timeout_maps_to_typed_error(db, monkeypatch):
         raise httpx.TimeoutException("timeout")
 
     monkeypatch.setattr(httpx.Client, "request", raise_timeout)
-    result = runner.execute(RunRequest(method="GET", url="https://example.com"), db)
+    result = runner.execute(RunRequest(method="GET", url="https://example.com", workspace_id=1), db)
     assert result["error"]["type"] == "timeout"
 
 
@@ -37,7 +41,7 @@ def test_invalid_url_maps_to_typed_error(db, monkeypatch):
         raise httpx.InvalidURL("bad")
 
     monkeypatch.setattr(httpx.Client, "request", raise_invalid)
-    result = runner.execute(RunRequest(method="GET", url="not a url"), db)
+    result = runner.execute(RunRequest(method="GET", url="not a url", workspace_id=1), db)
     assert result["error"]["type"] == "invalid_url"
 
 
@@ -52,9 +56,9 @@ def test_success_records_history_with_size_and_time(db, monkeypatch):
 
     monkeypatch.setattr(httpx.Client, "request", fake_request)
     result = runner.execute(
-        RunRequest(method="GET", url="https://example.com/data"), db
+        RunRequest(method="GET", url="https://example.com/data", workspace_id=1), db
     )
     assert result["status_code"] == 200
     assert result["size_bytes"] == len('{"ok": true}')
     assert result["time_ms"] >= 0
-    assert len(history_repo.list_history(db)) == 1
+    assert len(history_repo.list_history(db, 1)) == 1

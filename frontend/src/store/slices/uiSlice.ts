@@ -10,6 +10,8 @@ export type ModalKind =
   | { type: "save-request" }
   | { type: "new-collection" }
   | { type: "environment-manager" }
+  | { type: "workspace-create" }
+  | { type: "workspace-rename"; id: number; name: string }
   | { type: "coming-soon"; title: string }
   | null;
 

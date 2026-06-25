@@ -135,6 +135,7 @@ def execute(payload: RunRequest, db: Session) -> dict:
 
     history_repo.create_history(
         db,
+        workspace_id=payload.workspace_id,
         method=payload.method.upper(),
         url=url,
         request_snapshot=payload.model_dump(),

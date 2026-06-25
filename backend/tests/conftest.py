@@ -29,3 +29,8 @@ def client():
     with TestClient(app) as test_client:
         yield test_client
     app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def workspace_id(client):
+    return client.post("/api/workspaces", json={"name": "Test WS"}).json()["id"]

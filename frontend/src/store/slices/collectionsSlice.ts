@@ -13,14 +13,17 @@ const initialState: CollectionsState = {
   loading: false,
 };
 
-export const fetchCollections = createAsyncThunk("collections/fetch", async () => {
-  return api.get<Collection[]>("/collections");
-});
+export const fetchCollections = createAsyncThunk(
+  "collections/fetch",
+  async (workspaceId: number) => {
+    return api.get<Collection[]>(`/collections?workspace_id=${workspaceId}`);
+  }
+);
 
 export const createCollection = createAsyncThunk(
   "collections/create",
-  async (name: string) => {
-    return api.post<Collection>("/collections", { name });
+  async ({ workspaceId, name }: { workspaceId: number; name: string }) => {
+    return api.post<Collection>("/collections", { workspace_id: workspaceId, name });
   }
 );
 
@@ -41,9 +44,17 @@ export const deleteCollection = createAsyncThunk(
 
 export const createFolder = createAsyncThunk(
   "collections/createFolder",
-  async ({ collectionId, name }: { collectionId: number; name: string }) => {
+  async ({
+    collectionId,
+    name,
+    workspaceId,
+  }: {
+    collectionId: number;
+    name: string;
+    workspaceId: number;
+  }) => {
     await api.post(`/collections/${collectionId}/folders`, { name });
-    return api.get<Collection[]>("/collections");
+    return api.get<Collection[]>(`/collections?workspace_id=${workspaceId}`);
   }
 );
 
@@ -52,32 +63,42 @@ export const saveRequest = createAsyncThunk(
   async ({
     collectionId,
     request,
+    workspaceId,
   }: {
     collectionId: number;
     request: Partial<ApiRequest>;
+    workspaceId: number;
   }) => {
     const created = await api.post<ApiRequest>(
       `/collections/${collectionId}/requests`,
       request
     );
-    const items = await api.get<Collection[]>("/collections");
+    const items = await api.get<Collection[]>(`/collections?workspace_id=${workspaceId}`);
     return { created, items };
   }
 );
 
 export const updateRequest = createAsyncThunk(
   "collections/updateRequest",
-  async ({ id, request }: { id: number; request: Partial<ApiRequest> }) => {
+  async ({
+    id,
+    request,
+    workspaceId,
+  }: {
+    id: number;
+    request: Partial<ApiRequest>;
+    workspaceId: number;
+  }) => {
     await api.patch<ApiRequest>(`/requests/${id}`, request);
-    return api.get<Collection[]>("/collections");
+    return api.get<Collection[]>(`/collections?workspace_id=${workspaceId}`);
   }
 );
 
 export const deleteRequest = createAsyncThunk(
   "collections/deleteRequest",
-  async (id: number) => {
+  async ({ id, workspaceId }: { id: number; workspaceId: number }) => {
     await api.del(`/requests/${id}`);
-    return api.get<Collection[]>("/collections");
+    return api.get<Collection[]>(`/collections?workspace_id=${workspaceId}`);
   }
 );
 

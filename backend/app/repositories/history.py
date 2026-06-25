@@ -5,13 +5,18 @@ from app.models import History
 from app.utils.errors import NotFoundError
 
 
-def list_history(db: Session) -> list[History]:
-    stmt = select(History).order_by(History.created_at.desc(), History.id.desc())
+def list_history(db: Session, workspace_id: int) -> list[History]:
+    stmt = (
+        select(History)
+        .where(History.workspace_id == workspace_id)
+        .order_by(History.created_at.desc(), History.id.desc())
+    )
     return list(db.execute(stmt).scalars().all())
 
 
 def create_history(
     db: Session,
+    workspace_id: int,
     method: str,
     url: str,
     request_snapshot: dict,
@@ -21,6 +26,7 @@ def create_history(
     response_snapshot: dict,
 ) -> History:
     entry = History(
+        workspace_id=workspace_id,
         method=method,
         url=url,
         request_snapshot=request_snapshot,

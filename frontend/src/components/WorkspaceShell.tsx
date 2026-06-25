@@ -6,6 +6,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { fetchCollections } from "@/store/slices/collectionsSlice";
 import { fetchEnvironments } from "@/store/slices/environmentsSlice";
 import { fetchHistory } from "@/store/slices/historySlice";
+import { fetchWorkspaces } from "@/store/slices/workspacesSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 import { Modals } from "./Modals";
@@ -20,12 +21,19 @@ import styles from "./workspace.module.css";
 export function WorkspaceShell() {
   const dispatch = useAppDispatch();
   const showHome = useAppSelector((s) => s.tabs.showHome);
+  const selectedId = useAppSelector((s) => s.workspaces.selectedId);
 
   useEffect(() => {
-    dispatch(fetchCollections());
-    dispatch(fetchEnvironments());
-    dispatch(fetchHistory());
+    dispatch(fetchWorkspaces());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (selectedId) {
+      dispatch(fetchCollections(selectedId));
+      dispatch(fetchEnvironments(selectedId));
+      dispatch(fetchHistory(selectedId));
+    }
+  }, [dispatch, selectedId]);
 
   return (
     <div className={styles.shell}>

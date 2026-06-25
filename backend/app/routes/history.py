@@ -9,8 +9,8 @@ router = APIRouter(tags=["history"])
 
 
 @router.get("/history", response_model=list[HistoryOut])
-def list_history(db: Session = Depends(get_db)):
-    return controller.list_history(db)
+def list_history(workspace_id: int, db: Session = Depends(get_db)):
+    return controller.list_history(db, workspace_id)
 
 
 @router.delete("/history", status_code=status.HTTP_204_NO_CONTENT)

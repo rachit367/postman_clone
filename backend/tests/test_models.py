@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from app.config.database import Base
-from app.models import Collection, Environment, EnvironmentVariable, Request
+from app.models import Collection, Environment, EnvironmentVariable, Request, Workspace
 
 
 def make_session():
@@ -11,9 +11,17 @@ def make_session():
     return sessionmaker(bind=engine)()
 
 
+def _workspace(db):
+    ws = Workspace(name="WS")
+    db.add(ws)
+    db.commit()
+    return ws.id
+
+
 def test_collection_cascade_deletes_requests():
     db = make_session()
-    collection = Collection(name="C")
+    wid = _workspace(db)
+    collection = Collection(workspace_id=wid, name="C")
     collection.requests.append(Request(name="R", method="GET", url="http://x"))
     db.add(collection)
     db.commit()
@@ -24,7 +32,8 @@ def test_collection_cascade_deletes_requests():
 
 def test_environment_variables_relationship():
     db = make_session()
-    env = Environment(name="dev")
+    wid = _workspace(db)
+    env = Environment(workspace_id=wid, name="dev")
     env.variables.append(EnvironmentVariable(key="base", value="http://x"))
     db.add(env)
     db.commit()

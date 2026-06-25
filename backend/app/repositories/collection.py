@@ -14,8 +14,13 @@ def _with_relations():
     )
 
 
-def list_collections(db: Session) -> list[Collection]:
-    stmt = select(Collection).options(*_with_relations()).order_by(Collection.id)
+def list_collections(db: Session, workspace_id: int) -> list[Collection]:
+    stmt = (
+        select(Collection)
+        .options(*_with_relations())
+        .where(Collection.workspace_id == workspace_id)
+        .order_by(Collection.id)
+    )
     return list(db.execute(stmt).scalars().all())
 
 
@@ -32,7 +37,9 @@ def get_collection(db: Session, collection_id: int) -> Collection:
 
 
 def create_collection(db: Session, data: CollectionCreate) -> Collection:
-    collection = Collection(name=data.name, description=data.description)
+    collection = Collection(
+        workspace_id=data.workspace_id, name=data.name, description=data.description
+    )
     db.add(collection)
     db.commit()
     return get_collection(db, collection.id)

@@ -30,6 +30,7 @@ function blankVar(): EditableVar {
 export function EnvironmentManager({ onClose }: { onClose: () => void }) {
   const dispatch = useAppDispatch();
   const environments = useAppSelector((s) => s.environments.items);
+  const workspaceId = useAppSelector((s) => s.workspaces.selectedId);
 
   const [selectedId, setSelectedId] = useState<number | "new">(
     environments[0]?.id ?? "new"
@@ -99,7 +100,12 @@ export function EnvironmentManager({ onClose }: { onClose: () => void }) {
         enabled: v.enabled,
       }));
     if (selectedId === "new") {
-      await dispatch(createEnvironment({ name: name || "New Environment", variables: payload }));
+      if (!workspaceId) {
+        return;
+      }
+      await dispatch(
+        createEnvironment({ workspaceId, name: name || "New Environment", variables: payload })
+      );
     } else {
       await dispatch(
         updateEnvironment({ id: selectedId, name: name || "Environment", variables: payload })

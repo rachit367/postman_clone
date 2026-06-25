@@ -12,8 +12,8 @@ def _to_out(collection: Collection) -> CollectionOut:
     return out
 
 
-def list_collections(db: Session) -> list[CollectionOut]:
-    return [_to_out(item) for item in repo.list_collections(db)]
+def list_collections(db: Session, workspace_id: int) -> list[CollectionOut]:
+    return [_to_out(item) for item in repo.list_collections(db, workspace_id)]
 
 
 def get_collection(db: Session, collection_id: int) -> CollectionOut:

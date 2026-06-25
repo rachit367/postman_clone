@@ -10,8 +10,8 @@ router = APIRouter(tags=["collections"])
 
 
 @router.get("/collections", response_model=list[CollectionOut])
-def list_collections(db: Session = Depends(get_db)):
-    return controller.list_collections(db)
+def list_collections(workspace_id: int, db: Session = Depends(get_db)):
+    return controller.list_collections(db, workspace_id)
 
 
 @router.post("/collections", response_model=CollectionOut, status_code=status.HTTP_201_CREATED)

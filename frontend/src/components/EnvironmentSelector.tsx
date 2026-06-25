@@ -11,6 +11,7 @@ import styles from "./workspace.module.css";
 export function EnvironmentSelector() {
   const dispatch = useAppDispatch();
   const environments = useAppSelector((s) => s.environments.items);
+  const workspaceId = useAppSelector((s) => s.workspaces.selectedId);
   const active = environments.find((e) => e.is_active);
 
   const [open, setOpen] = useState(false);
@@ -63,7 +64,9 @@ export function EnvironmentSelector() {
           <button
             className={`${styles.envOption} ${!active ? styles.envOptionActive : styles.envOptionMuted}`}
             onClick={() => {
-              dispatch(deactivateEnvironments());
+              if (workspaceId) {
+                dispatch(deactivateEnvironments(workspaceId));
+              }
               setOpen(false);
             }}
           >
@@ -75,7 +78,9 @@ export function EnvironmentSelector() {
               key={env.id}
               className={`${styles.envOption} ${env.is_active ? styles.envOptionActive : ""}`}
               onClick={() => {
-                dispatch(activateEnvironment(env.id));
+                if (workspaceId) {
+                  dispatch(activateEnvironment({ id: env.id, workspaceId }));
+                }
                 setOpen(false);
               }}
             >

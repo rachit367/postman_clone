@@ -14,8 +14,8 @@ router = APIRouter(tags=["environments"])
 
 
 @router.get("/environments", response_model=list[EnvironmentOut])
-def list_environments(db: Session = Depends(get_db)):
-    return controller.list_environments(db)
+def list_environments(workspace_id: int, db: Session = Depends(get_db)):
+    return controller.list_environments(db, workspace_id)
 
 
 @router.post("/environments", response_model=EnvironmentOut, status_code=status.HTTP_201_CREATED)

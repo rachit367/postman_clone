@@ -11,9 +11,12 @@ const initialState: HistoryState = {
   items: [],
 };
 
-export const fetchHistory = createAsyncThunk("history/fetch", async () => {
-  return api.get<HistoryEntry[]>("/history");
-});
+export const fetchHistory = createAsyncThunk(
+  "history/fetch",
+  async (workspaceId: number) => {
+    return api.get<HistoryEntry[]>(`/history?workspace_id=${workspaceId}`);
+  }
+);
 
 export const deleteHistoryEntry = createAsyncThunk(
   "history/delete",

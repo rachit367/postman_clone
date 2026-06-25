@@ -35,6 +35,13 @@ export interface RequestSettings {
   use_server_cipher_suite: boolean;
 }
 
+export interface Workspace {
+  id: number;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface ApiRequest {
   id: number;
   collection_id: number;
@@ -67,6 +74,7 @@ export interface Folder {
 
 export interface Collection {
   id: number;
+  workspace_id: number;
   name: string;
   description: string | null;
   created_at: string;
@@ -85,6 +93,7 @@ export interface EnvironmentVariable {
 
 export interface Environment {
   id: number;
+  workspace_id: number;
   name: string;
   is_active: boolean;
   created_at: string;
@@ -94,6 +103,7 @@ export interface Environment {
 
 export interface HistoryEntry {
   id: number;
+  workspace_id: number;
   method: string;
   url: string;
   request_snapshot: Record<string, unknown>;
