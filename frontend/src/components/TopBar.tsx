@@ -16,6 +16,7 @@ export function TopBar() {
   return (
     <div className={styles.topbarWrap}>
       <div className={styles.topbar}>
+        <img src="/postman.png" alt="Postman" className={styles.brandLogo} />
         <div className={styles.topbarNavBtns}>
           <button className={styles.iconButton} title="Back" onClick={() => comingSoon("Back")}>
             ‹

@@ -11,7 +11,7 @@ import styles from "../workspace.module.css";
 
 const AUTO_HEADERS = [
   { key: "Content-Type", value: "application/json" },
-  { key: "User-Agent", value: "PostmanClone/1.0" },
+  { key: "User-Agent", value: "Postman/1.0" },
   { key: "Accept", value: "*/*" },
   { key: "Accept-Encoding", value: "gzip, deflate, br" },
   { key: "Connection", value: "keep-alive" },

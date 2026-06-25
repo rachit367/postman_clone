@@ -4,8 +4,13 @@ import "./globals.css";
 import { StoreProvider } from "@/store/Provider";
 
 export const metadata: Metadata = {
-  title: "Postman Clone",
+  title: "Postman",
   description: "An API client platform",
+  icons: {
+    icon: "/postman.png",
+    shortcut: "/postman.png",
+    apple: "/postman.png",
+  },
 };
 
 export default function RootLayout({

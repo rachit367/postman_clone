@@ -9,10 +9,13 @@ import styles from "./workspace.module.css";
 export function WorkspaceHome() {
   const dispatch = useAppDispatch();
   const collections = useAppSelector((s) => s.collections.items);
+  const workspace = useAppSelector((s) =>
+    s.workspaces.items.find((w) => w.id === s.workspaces.selectedId)
+  );
 
   return (
     <div className={styles.home}>
-      <div className={styles.homeTitle}>My Workspace</div>
+      <div className={styles.homeTitle}>{workspace ? workspace.name : "Workspace"}</div>
       <div className={styles.homeMeta}>
         <span>rachit</span>
         <span>·</span>
