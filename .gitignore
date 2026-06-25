@@ -24,8 +24,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Deployment (server-only, not committed)
+# Deployment (server-only, copied to server manually, not committed)
 nginx/
+startup.sh
 
 # OS / editor
 .DS_Store
