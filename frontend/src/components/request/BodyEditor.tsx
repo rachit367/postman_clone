@@ -6,6 +6,7 @@ import { BodyMode, KeyValue } from "@/types";
 
 import { CodeEditor } from "./CodeEditor";
 import { KeyValueTable } from "./KeyValueTable";
+import { Dropdown } from "../Dropdown";
 import styles from "../workspace.module.css";
 
 const MODES: { value: BodyMode; label: string }[] = [
@@ -50,16 +51,18 @@ export function BodyEditor() {
       {body_mode === "raw" && (
         <div>
           <div className={styles.bodyToolbar}>
-            <select
-              className={styles.methodSelect}
+            <Dropdown
               value={tab.draft.body_raw_type ?? "json"}
-              onChange={(e) => dispatch(updateDraft({ body_raw_type: e.target.value }))}
-            >
-              <option value="json">JSON</option>
-              <option value="text">Text</option>
-              <option value="xml">XML</option>
-              <option value="html">HTML</option>
-            </select>
+              options={[
+                { value: "json", label: "JSON" },
+                { value: "text", label: "Text" },
+                { value: "javascript", label: "JavaScript" },
+                { value: "html", label: "HTML" },
+                { value: "xml", label: "XML" },
+              ]}
+              onChange={(v) => dispatch(updateDraft({ body_raw_type: v }))}
+              minWidth={130}
+            />
             <div style={{ flex: 1 }} />
             <button
               className={styles.linkButton}

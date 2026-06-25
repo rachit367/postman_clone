@@ -8,6 +8,7 @@ import { pushToast } from "@/store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { AuthType } from "@/types";
 
+import { Dropdown } from "../Dropdown";
 import styles from "../workspace.module.css";
 
 const TYPES: AuthType[] = ["none", "bearer", "basic"];
@@ -47,17 +48,15 @@ export function AuthEditor() {
     <div>
       <div className={styles.field}>
         <label className={styles.fieldLabel}>Auth type</label>
-        <select
-          className={styles.envSelect}
+        <Dropdown
           value={auth_type}
-          onChange={(e) => dispatch(updateDraft({ auth_type: e.target.value as AuthType }))}
-        >
-          {TYPES.map((t) => (
-            <option key={t} value={t}>
-              {t === "none" ? "No Auth" : t === "bearer" ? "Bearer Token" : "Basic Auth"}
-            </option>
-          ))}
-        </select>
+          options={TYPES.map((t) => ({
+            value: t,
+            label: t === "none" ? "No Auth" : t === "bearer" ? "Bearer Token" : "Basic Auth",
+          }))}
+          onChange={(v) => dispatch(updateDraft({ auth_type: v as AuthType }))}
+          minWidth={160}
+        />
       </div>
 
       {auth_type === "bearer" && (

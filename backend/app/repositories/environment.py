@@ -113,6 +113,11 @@ def activate_environment(db: Session, environment_id: int) -> dict:
     return get_environment(db, environment_id)
 
 
+def deactivate_environments(db: Session) -> None:
+    db.execute(update(Environment).values(is_active=False))
+    db.commit()
+
+
 def reveal_variable(db: Session, variable_id: int) -> str:
     variable = db.get(EnvironmentVariable, variable_id)
     if variable is None:

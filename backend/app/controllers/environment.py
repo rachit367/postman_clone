@@ -33,5 +33,9 @@ def activate_environment(db: Session, environment_id: int) -> EnvironmentOut:
     return EnvironmentOut.model_validate(repo.activate_environment(db, environment_id))
 
 
+def deactivate_environments(db: Session) -> None:
+    repo.deactivate_environments(db)
+
+
 def reveal_variable(db: Session, variable_id: int) -> RevealOut:
     return RevealOut(value=repo.reveal_variable(db, variable_id))

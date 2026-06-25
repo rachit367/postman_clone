@@ -57,6 +57,14 @@ export const activateEnvironment = createAsyncThunk(
   }
 );
 
+export const deactivateEnvironments = createAsyncThunk(
+  "environments/deactivate",
+  async () => {
+    await api.post("/environments/deactivate");
+    return api.get<Environment[]>("/environments");
+  }
+);
+
 const environmentsSlice = createSlice({
   name: "environments",
   initialState,
@@ -79,6 +87,9 @@ const environmentsSlice = createSlice({
         state.items = state.items.filter((e) => e.id !== action.payload);
       })
       .addCase(activateEnvironment.fulfilled, (state, action) => {
+        state.items = action.payload;
+      })
+      .addCase(deactivateEnvironments.fulfilled, (state, action) => {
         state.items = action.payload;
       });
   },

@@ -38,6 +38,11 @@ def delete_environment(environment_id: int, db: Session = Depends(get_db)):
     controller.delete_environment(db, environment_id)
 
 
+@router.post("/environments/deactivate", status_code=status.HTTP_204_NO_CONTENT)
+def deactivate_environments(db: Session = Depends(get_db)):
+    controller.deactivate_environments(db)
+
+
 @router.post("/environments/{environment_id}/activate", response_model=EnvironmentOut)
 def activate_environment(environment_id: int, db: Session = Depends(get_db)):
     return controller.activate_environment(db, environment_id)

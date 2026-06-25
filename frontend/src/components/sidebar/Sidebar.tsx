@@ -78,14 +78,21 @@ export function Sidebar() {
 
       <EnvironmentsSection />
 
-      <div>
-        <div className={styles.sectionHeader}>
-          Specs <StubBadge />
-        </div>
-        <div className={styles.sectionHeader}>
-          Flows <StubBadge />
-        </div>
+      <StubSection label="Specs" />
+      <StubSection label="Flows" />
+    </div>
+  );
+}
+
+function StubSection({ label }: { label: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <div className={styles.sectionHeader} onClick={() => setOpen(!open)}>
+        <span className={styles.sectionChevron}>{open ? "⌄" : "›"}</span>
+        {label} <StubBadge />
       </div>
+      {open && <div className={styles.stubSectionBody}>Coming soon</div>}
     </div>
   );
 }

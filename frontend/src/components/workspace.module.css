@@ -132,6 +132,62 @@
   min-width: 180px;
 }
 
+/* Generic custom dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdownTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 10px;
+}
+.dropdownTrigger:hover {
+  background: var(--bg-hover);
+}
+.dropdownCaret {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+.dropdownPanel {
+  position: absolute;
+  top: calc(100% + 4px);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  padding: 4px;
+  z-index: 160;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.dropdownItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.dropdownItem:hover {
+  background: var(--bg-hover);
+}
+.dropdownItemActive {
+  background: var(--bg-active);
+}
+
 /* Custom environment selector (Postman-style) */
 .envSelector {
   position: relative;
@@ -276,6 +332,16 @@
 }
 .sectionHeader:hover {
   color: var(--text-muted);
+}
+.sectionChevron {
+  font-size: 11px;
+  width: 10px;
+  display: inline-block;
+}
+.stubSectionBody {
+  padding: 6px 24px 10px;
+  font-size: 12px;
+  color: var(--text-faint);
 }
 .treeRow {
   display: flex;

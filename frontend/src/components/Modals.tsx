@@ -8,6 +8,7 @@ import { closeModal, pushToast } from "@/store/slices/uiSlice";
 import { markSaved } from "@/store/slices/tabsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
+import { Dropdown } from "./Dropdown";
 import { EnvironmentManager } from "./sidebar/EnvironmentManager";
 import styles from "./workspace.module.css";
 
@@ -109,17 +110,12 @@ export function Modals() {
           </div>
           <div className={styles.field}>
             <label className={styles.fieldLabel}>Collection</label>
-            <select
-              className={styles.envSelect}
-              value={collectionId ?? 0}
-              onChange={(e) => setTargetCollection(Number(e.target.value))}
-            >
-              {collections.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
+            <Dropdown
+              value={String(collectionId ?? "")}
+              options={collections.map((c) => ({ value: String(c.id), label: c.name }))}
+              onChange={(v) => setTargetCollection(Number(v))}
+              minWidth={200}
+            />
           </div>
           <div className={styles.modalActions}>
             <button className={styles.btnGhost} onClick={close}>

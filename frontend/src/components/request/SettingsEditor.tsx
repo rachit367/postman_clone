@@ -4,6 +4,7 @@ import { updateDraft } from "@/store/slices/tabsSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { RequestSettings } from "@/types";
 
+import { Dropdown } from "../Dropdown";
 import { StubBadge } from "../StubBadge";
 import styles from "../workspace.module.css";
 
@@ -82,14 +83,16 @@ export function SettingsEditor() {
           <div className={styles.settingsLabel}>HTTP version</div>
           <div className={styles.settingsDesc}>Select the HTTP version to use for sending the request.</div>
         </div>
-        <select
-          className={styles.envSelect}
+        <Dropdown
           value={settings.http_version}
-          onChange={(e) => setSetting({ http_version: e.target.value })}
-        >
-          <option value="auto">Auto</option>
-          <option value="http2">HTTP/2</option>
-        </select>
+          options={[
+            { value: "auto", label: "Auto" },
+            { value: "http2", label: "HTTP/2" },
+          ]}
+          onChange={(v) => setSetting({ http_version: v })}
+          panelAlign="right"
+          minWidth={110}
+        />
       </div>
 
       {WIRED.map(renderToggle)}

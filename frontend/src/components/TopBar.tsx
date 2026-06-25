@@ -5,7 +5,6 @@ import { setShowHome } from "@/store/slices/tabsSlice";
 import { useAppDispatch } from "@/store/hooks";
 
 import { EnvironmentSelector } from "./EnvironmentSelector";
-import { StubBadge } from "./StubBadge";
 import styles from "./workspace.module.css";
 
 export function TopBar() {
@@ -35,10 +34,6 @@ export function TopBar() {
           My Workspace ▾
         </button>
 
-        <div className={styles.topbarSpacer} />
-        <button className={styles.topbarSearch} onClick={() => comingSoon("Search")}>
-          🔍 Search <StubBadge />
-        </button>
         <div className={styles.topbarSpacer} />
 
         <EnvironmentSelector />

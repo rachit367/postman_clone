@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { activateEnvironment } from "@/store/slices/environmentsSlice";
+import { activateEnvironment, deactivateEnvironments } from "@/store/slices/environmentsSlice";
 import { openModal } from "@/store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
@@ -61,15 +61,13 @@ export function EnvironmentSelector() {
             </button>
           </div>
           <button
-            className={`${styles.envOption} ${styles.envOptionMuted}`}
+            className={`${styles.envOption} ${!active ? styles.envOptionActive : styles.envOptionMuted}`}
             onClick={() => {
-              if (active) {
-                dispatch(activateEnvironment(active.id));
-              }
+              dispatch(deactivateEnvironments());
               setOpen(false);
             }}
           >
-            <span className={styles.envCheck}></span>
+            <span className={styles.envCheck}>{!active ? "✓" : ""}</span>
             No environment
           </button>
           {filtered.map((env) => (

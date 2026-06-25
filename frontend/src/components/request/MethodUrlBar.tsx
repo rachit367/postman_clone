@@ -13,6 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { HttpMethod, RunError, RunResponse } from "@/types";
 
+import { Dropdown } from "../Dropdown";
 import { StubBadge } from "../StubBadge";
 import styles from "../workspace.module.css";
 
@@ -65,17 +66,16 @@ export function MethodUrlBar() {
 
   return (
     <div className={styles.urlBar}>
-      <select
-        className={styles.methodSelect}
+      <Dropdown
         value={tab.draft.method}
-        onChange={(e) => dispatch(updateDraft({ method: e.target.value as HttpMethod }))}
-      >
-        {METHODS.map((m) => (
-          <option key={m} value={m}>
-            {m}
-          </option>
-        ))}
-      </select>
+        options={METHODS.map((m) => ({
+          value: m,
+          label: m,
+          className: `method-${m.toLowerCase()}`,
+        }))}
+        onChange={(v) => dispatch(updateDraft({ method: v as HttpMethod }))}
+        minWidth={120}
+      />
       <input
         className={styles.urlInput}
         placeholder="Enter request URL"

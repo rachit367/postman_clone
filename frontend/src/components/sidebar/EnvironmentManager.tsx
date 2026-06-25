@@ -11,6 +11,7 @@ import {
 import { pushToast } from "@/store/slices/uiSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
+import { Dropdown } from "../Dropdown";
 import styles from "../workspace.module.css";
 
 interface EditableVar {
@@ -112,20 +113,15 @@ export function EnvironmentManager({ onClose }: { onClose: () => void }) {
     <div>
       <div className={styles.modalTitle}>Manage Environments</div>
       <div className={styles.field}>
-        <select
-          className={styles.envSelect}
-          value={selectedId}
-          onChange={(e) =>
-            loadEnv(e.target.value === "new" ? "new" : Number(e.target.value))
-          }
-        >
-          {environments.map((env) => (
-            <option key={env.id} value={env.id}>
-              {env.name}
-            </option>
-          ))}
-          <option value="new">+ New environment</option>
-        </select>
+        <Dropdown
+          value={String(selectedId)}
+          options={[
+            ...environments.map((env) => ({ value: String(env.id), label: env.name })),
+            { value: "new", label: "+ New environment" },
+          ]}
+          onChange={(v) => loadEnv(v === "new" ? "new" : Number(v))}
+          minWidth={220}
+        />
       </div>
       <div className={styles.field}>
         <label className={styles.fieldLabel}>Name</label>
