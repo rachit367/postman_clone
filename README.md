@@ -130,15 +130,30 @@ cd backend
 .venv/Scripts/python -m pytest
 ```
 
-### Docker
+## Server deployment (uvicorn + PM2)
 
-```
-export APP_SECRET_KEY=$(python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())")
-docker-compose up --build
-```
+Run all three services on the server with PM2 using `ecosystem.config.js`. Each
+app runs from its own folder and reads that folder's env file.
 
-Note: `NEXT_PUBLIC_API_BASE` is baked into the frontend at build time. The
-default points the browser at `http://localhost:8000/api`.
+1. Backend: create `backend/.env` with a real `APP_SECRET_KEY`, install deps in
+   `backend/.venv`, then `alembic upgrade head` and `python -m seed`.
+2. Frontend: set `NEXT_PUBLIC_API_BASE` in `frontend/.env` (baked at build time),
+   then `npm install && npm run build`. Copy the static assets next to the
+   standalone server:
+   ```
+   cp -r frontend/.next/static frontend/.next/standalone/.next/static
+   cp -r frontend/public frontend/.next/standalone/public
+   ```
+3. Sidecar: `cd script-sidecar && npm install`.
+4. Start everything:
+   ```
+   pm2 start ecosystem.config.js
+   pm2 save
+   ```
+
+`NEXT_PUBLIC_API_BASE` is baked into the frontend at build time — set it to your
+public backend URL before `npm run build`. Add that frontend origin to the
+backend's `CORS_ORIGINS`.
 
 ## Request Settings: wired vs. display-only
 
@@ -171,5 +186,5 @@ Flows, Share request link, and the display-only request settings above.
 
 - Single default user; no real authentication.
 - SQLite is sufficient for the assignment scope.
-- The script sidecar runs alongside the backend (local process or compose service).
+- The script sidecar runs alongside the backend (local process, or a PM2 process on the server).
 ```
