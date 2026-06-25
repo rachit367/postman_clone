@@ -36,15 +36,82 @@
 }
 
 /* Top bar */
+.topbarWrap {
+  flex-shrink: 0;
+}
 .topbar {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
   height: 44px;
-  padding: 0 14px;
+  padding: 0 12px;
   background: var(--bg-elevated);
   border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
+}
+.topbarNavBtns {
+  display: flex;
+  gap: 2px;
+}
+.workspaceMenu {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.workspaceMenu:hover {
+  background: var(--bg-hover);
+}
+.topbarSearch {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  color: var(--text-faint);
+  font-size: 12px;
+  padding: 6px 14px;
+  min-width: 320px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.upgradeBtn {
+  background: #5a3a1a;
+  color: #ffb070;
+  border: 1px solid #7a4f24;
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+.planBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #3a2f12;
+  color: #e6c98a;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.bannerLink {
+  background: none;
+  border: none;
+  color: #ffb070;
+  text-decoration: underline;
+  font-size: 12px;
 }
 .topbarBrand {
   font-weight: 600;
@@ -128,6 +195,10 @@
   border-radius: 4px;
   padding: 5px 8px;
   font-size: 12px;
+}
+.filterIcon {
+  color: var(--text-faint);
+  font-size: 14px;
 }
 .sidebarSection {
   flex: 1;
@@ -659,4 +730,60 @@
 }
 .toastInfo {
   border-left: 3px solid var(--blue);
+}
+
+/* Sub-tab count badge / content dot */
+.tabCount {
+  margin-left: 6px;
+  background: var(--bg-active);
+  color: var(--text-muted);
+  border-radius: 9px;
+  padding: 1px 6px;
+  font-size: 10px;
+}
+.subTabActive .tabCount {
+  background: var(--accent);
+  color: #fff;
+}
+.tabDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* Auto-generated headers */
+.autoHeaderBar {
+  padding: 4px 0 10px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.autoHeaderRow {
+  opacity: 0.75;
+}
+.autoHeaderKey {
+  display: block;
+  padding: 7px 8px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+.autoHeaderValue {
+  display: block;
+  padding: 7px 8px;
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+/* Body toolbar (raw type + beautify) */
+.bodyToolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
 }

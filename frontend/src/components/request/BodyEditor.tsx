@@ -48,12 +48,40 @@ export function BodyEditor() {
       )}
 
       {body_mode === "raw" && (
-        <div style={{ height: 240, border: "1px solid var(--border)" }}>
-          <CodeEditor
-            value={body_raw}
-            onChange={(value) => dispatch(updateDraft({ body_raw: value }))}
-            language="json"
-          />
+        <div>
+          <div className={styles.bodyToolbar}>
+            <select
+              className={styles.methodSelect}
+              value={tab.draft.body_raw_type ?? "json"}
+              onChange={(e) => dispatch(updateDraft({ body_raw_type: e.target.value }))}
+            >
+              <option value="json">JSON</option>
+              <option value="text">Text</option>
+              <option value="xml">XML</option>
+              <option value="html">HTML</option>
+            </select>
+            <div style={{ flex: 1 }} />
+            <button
+              className={styles.linkButton}
+              onClick={() => {
+                try {
+                  const formatted = JSON.stringify(JSON.parse(body_raw), null, 2);
+                  dispatch(updateDraft({ body_raw: formatted }));
+                } catch {
+                  dispatch(updateDraft({ body_raw }));
+                }
+              }}
+            >
+              Beautify
+            </button>
+          </div>
+          <div style={{ height: 220, border: "1px solid var(--border)" }}>
+            <CodeEditor
+              value={body_raw}
+              onChange={(value) => dispatch(updateDraft({ body_raw: value }))}
+              language={(tab.draft.body_raw_type ?? "json") === "json" ? "json" : "text"}
+            />
+          </div>
         </div>
       )}
 

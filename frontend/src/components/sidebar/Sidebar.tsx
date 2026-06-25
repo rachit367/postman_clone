@@ -45,12 +45,27 @@ export function Sidebar() {
       </div>
 
       <div className={styles.searchRow}>
+        <span className={styles.filterIcon}>≡</span>
         <input
           className={styles.searchInput}
-          placeholder={view === "collections" ? "Search collections" : "Search history"}
+          placeholder={view === "collections" ? "Filter" : "Search history"}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+        <button
+          className={styles.iconButton}
+          title="New collection"
+          onClick={() => dispatch(openModal({ type: "new-collection" }))}
+        >
+          +
+        </button>
+        <button
+          className={styles.iconButton}
+          title="More"
+          onClick={() => dispatch(openModal({ type: "coming-soon", title: "More options" }))}
+        >
+          ⋯
+        </button>
       </div>
 
       <div className={styles.sidebarSection}>

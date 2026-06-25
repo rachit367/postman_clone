@@ -126,8 +126,14 @@ function CollectionRow({ collection }: { collection: Collection }) {
 
 export function CollectionsTab({ search }: { search: string }) {
   const collections = useAppSelector((s) => s.collections.items);
-  const filtered = collections.filter((c) =>
-    c.name.toLowerCase().includes(search.toLowerCase())
+  const query = search.toLowerCase();
+  const matchesRequest = (collection: Collection) =>
+    collection.requests.some((r) => r.name.toLowerCase().includes(query)) ||
+    collection.folders.some((f) =>
+      f.requests.some((r) => r.name.toLowerCase().includes(query))
+    );
+  const filtered = collections.filter(
+    (c) => c.name.toLowerCase().includes(query) || matchesRequest(c)
   );
 
   return (
