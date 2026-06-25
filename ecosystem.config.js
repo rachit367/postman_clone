@@ -13,7 +13,7 @@ module.exports = {
       name: "backend",
       cwd: "./backend",
       script: ".venv/bin/uvicorn",
-      args: "app.main:app --host 0.0.0.0 --port 8000",
+      args: "app.main:app --host 127.0.0.1 --port 8000",
       interpreter: "none",
     },
     {
@@ -22,7 +22,7 @@ module.exports = {
       script: ".next/standalone/server.js",
       env: {
         PORT: "3000",
-        HOSTNAME: "0.0.0.0",
+        HOSTNAME: "127.0.0.1",
       },
     },
   ],
