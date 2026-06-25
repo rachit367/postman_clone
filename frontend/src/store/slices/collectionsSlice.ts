@@ -56,8 +56,12 @@ export const saveRequest = createAsyncThunk(
     collectionId: number;
     request: Partial<ApiRequest>;
   }) => {
-    await api.post<ApiRequest>(`/collections/${collectionId}/requests`, request);
-    return api.get<Collection[]>("/collections");
+    const created = await api.post<ApiRequest>(
+      `/collections/${collectionId}/requests`,
+      request
+    );
+    const items = await api.get<Collection[]>("/collections");
+    return { created, items };
   }
 );
 
@@ -106,7 +110,7 @@ const collectionsSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(saveRequest.fulfilled, (state, action) => {
-        state.items = action.payload;
+        state.items = action.payload.items;
       })
       .addCase(updateRequest.fulfilled, (state, action) => {
         state.items = action.payload;

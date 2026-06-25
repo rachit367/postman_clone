@@ -141,7 +141,16 @@ export function Modals() {
                     updateRequest({ id: activeTab.requestId, request })
                   );
                 } else {
-                  await dispatch(saveRequest({ collectionId, request }));
+                  const result = await dispatch(
+                    saveRequest({ collectionId, request })
+                  ).unwrap();
+                  dispatch(
+                    markSaved({
+                      requestId: result.created.id,
+                      collectionId: result.created.collection_id,
+                      name: result.created.name,
+                    })
+                  );
                 }
                 dispatch(fetchHistory());
                 dispatch(pushToast("Request saved", "success"));

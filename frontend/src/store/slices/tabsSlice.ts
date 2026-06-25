@@ -204,12 +204,15 @@ const tabsSlice = createSlice({
     },
     markSaved(
       state,
-      action: PayloadAction<{ requestId: number; collectionId: number }>
+      action: PayloadAction<{ requestId: number; collectionId: number; name?: string }>
     ) {
       const tab = findActive(state);
       if (tab) {
         tab.requestId = action.payload.requestId;
         tab.collectionId = action.payload.collectionId;
+        if (action.payload.name) {
+          tab.draft.name = action.payload.name;
+        }
         tab.dirty = false;
       }
     },
