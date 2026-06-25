@@ -76,13 +76,6 @@ export function TopBar() {
           R
         </button>
       </div>
-      <div className={styles.planBanner}>
-        Your workspace is on the Free plan with 1 user. You retain editing access.
-        <button className={styles.bannerLink} onClick={() => comingSoon("Upgrade")}>
-          Upgrade
-        </button>
-        <StubBadge />
-      </div>
     </div>
   );
 }

@@ -96,23 +96,6 @@
   font-size: 12px;
   font-weight: 700;
 }
-.planBanner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #3a2f12;
-  color: #e6c98a;
-  font-size: 12px;
-  padding: 6px 14px;
-  border-bottom: 1px solid var(--border);
-}
-.bannerLink {
-  background: none;
-  border: none;
-  color: #ffb070;
-  text-decoration: underline;
-  font-size: 12px;
-}
 .topbarBrand {
   font-weight: 600;
   font-size: 13px;
